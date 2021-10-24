@@ -16,6 +16,9 @@ add_executable(mytest main.cpp
                       IntentRecognizerTest.cpp
                       ${Source}/RowParser.cpp
                       ${Source}/IntentRecognizer.cpp)
-target_link_libraries(mytest gtest_main Boost::boost)
+target_link_libraries(mytest gtest_main Boost::boost csv)
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/config/intentionLight.csv
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 gtest_discover_tests(mytest)

@@ -7,10 +7,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 FetchContent_Declare(
     boost-cmake
-  # Specify the commit you depend on and update it regularly.
-  GIT_REPOSITORY  https://github.com/Orphis/boost-cmake.git
+    GIT_REPOSITORY  https://github.com/Orphis/boost-cmake.git
 )
 FetchContent_MakeAvailable(boost-cmake)
+
+FetchContent_Declare(
+    csv-parser
+    GIT_REPOSITORY  https://github.com/svandernotte/csv-parser
+)
+FetchContent_MakeAvailable(csv-parser)
 
 include_directories(IntentRecognizer/include)
 

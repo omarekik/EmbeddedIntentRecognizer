@@ -17,6 +17,21 @@ bool Intent::find(const std::string & sentence)
     return m_Found;
 }
 
+const std::string Intent::serialize() const
+{
+    std::string res = "";
+    res += m_Found;
+    res += '|';
+    res += m_Name;
+    res += '|';
+    for(auto & context_element : m_Context)
+    {
+        res += context_element;
+        res += '|';
+    }
+    return res;
+}
+
 void IntentRecognizer::emplaceIntent(Intent intent)
 {
     m_Intents.emplace_back(std::move(intent));
@@ -46,5 +61,16 @@ const std::string IntentRecognizer::getRecognizedIntents() const
                 }
             }
         );
+    return res;
+}
+
+const std::string IntentRecognizer::serialize() const
+{
+    std::string res = "";
+    for(auto & intent : m_Intents)
+    {
+        res += intent.serialize();
+        res += "\n";
+    }
     return res;
 }
