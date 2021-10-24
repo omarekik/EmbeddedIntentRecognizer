@@ -1,16 +1,15 @@
 #pragma once
 
 #include <string>
-#include <unordered_set>
 #include <list>
 #include <atomic>
 
 class Intent{
-    const std::unordered_set<std::string> m_Context;
+    const std::list<std::string> m_Context;
     const std::string m_Name;
     std::atomic_bool m_Found;
 public:
-    Intent(const std::unordered_set<std::string> context, const std::string name)
+    Intent(const std::list<std::string> context, const std::string name)
         : m_Context(context)
         , m_Name(name)
         , m_Found(false)
@@ -22,7 +21,7 @@ public:
                     , m_Found(static_cast< bool >(intent.m_Found))
                     {}
 
-    bool find(const std::string & word);
+    bool find(const std::string & sentence);
     const bool getFound() const {return m_Found;}
     const std::string & getName() const {return m_Name;}
 };
@@ -34,6 +33,6 @@ private:
     
 public:
     void emplaceIntent(Intent intent);
-    void recognize(const std::string & word);
+    void recognize(const std::string & sentence);
     const std::string getRecognizedIntents() const;
 };

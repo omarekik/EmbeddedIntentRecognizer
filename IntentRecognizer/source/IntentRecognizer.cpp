@@ -2,12 +2,24 @@
 #include <algorithm>
 #include <execution>
 
-bool Intent::find(const std::string & word)
+bool Intent::find(const std::string & sentence)
 {
-    if(m_Context.find(word)!=m_Context.end())
-    {
-        m_Found = true;
-    }
+    for_each( std::execution::par
+                , std::begin(m_Context)
+                , std::end(m_Context)
+                , [& m_Found = m_Found, & sentence](const std::string & context_element){
+                    //
+                    // May be after lauching thread per context_element one of them set m_Found to true
+                    // so no need to run string::find in the remaining threads.
+                    //
+                    if(!m_Found){ 
+                        if(sentence.find(context_element) != std::string::npos)
+                        {
+                            m_Found = true;
+                        }
+                    }
+                }
+            );
     return m_Found;
 }
 
@@ -16,15 +28,13 @@ void IntentRecognizer::emplaceIntent(Intent intent)
     m_Intents.emplace_back(std::move(intent));
 }
 
-void IntentRecognizer::recognize(const std::string & word)
+void IntentRecognizer::recognize(const std::string & sentence)
 {
     for_each( std::execution::par
                             , std::begin(m_Intents)
                             , std::end(m_Intents)
-                            , [& word](Intent & intent){
-                                if(!intent.getFound()){
-                                    intent.find(word);
-                                }
+                            , [& sentence](Intent & intent){
+                                    intent.find(sentence);
                             }
                         );
 }
