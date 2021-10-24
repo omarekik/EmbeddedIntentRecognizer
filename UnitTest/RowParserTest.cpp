@@ -10,3 +10,4 @@ TEST(RowParser, canParseSentence){
     }
     EXPECT_STREQ("Whatistheweatherliketoday", result.c_str());  
 }
+
