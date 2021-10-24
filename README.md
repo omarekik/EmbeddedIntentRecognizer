@@ -7,16 +7,18 @@ Simple and small intent recognition command line tool that is not AI based for l
 * Tell me an interesting fact. => Prints (Intent: Get Fact)
 
 ### Build:
-Buildable with cmake (minimum version 3.10) using modern C++ compiler (should support C++17) by running following command:
-   ```
-   git clone https://github.com/omarekik/EmbeddedIntentRecognizer && cd EmbeddedIntentRecognizer
-   mkdir build && cd build && cmake .. && make && make test
-   ```
-
+Buildable with cmake (minimum version 3.14) using modern C++ compiler (minimum version C++17) by running following command:
+```
+git clone https://github.com/omarekik/EmbeddedIntentRecognizer && cd EmbeddedIntentRecognizer
+mkdir build && cd build && cmake .. && make && make test
+```
+For windows environment, use "cmake --build . " instead of make
 ### Run:
 ```
 ./IntentRecognizer/EmbeddedIntentRecognizer
 ```
+
 ### Open items:
 * Actually boost/Tokenizer is used for input sentence parsing. Some research is done to avoid copying strings using string_view and Vince's CSV Parser (https://github.com/svandernotte/csv-parser). The limit of this parser is that it supports only one delimiter. 
 * Some research is done to handle different semantic variations using AI. This is a great example (https://github.com/mit-nlp/MITIE/blob/master/examples/cpp/ner/ner_example.cpp) for integration of MITIE open source AI library and trained models in named entity recognition application.
+* In Intent class, m_Found is defined as atomic_bool. We may improve performance but reduce code readabilility by using memory_order_relaxed as ordering option or using atomic_flag so that application become lock free. 

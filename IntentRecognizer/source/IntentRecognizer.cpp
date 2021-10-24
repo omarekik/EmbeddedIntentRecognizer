@@ -4,7 +4,10 @@
 
 bool Intent::find(const std::string & word)
 {
-    m_Found = m_Context.find(word)!=m_Context.end();
+    if(m_Context.find(word)!=m_Context.end())
+    {
+        m_Found = true;
+    }
     return m_Found;
 }
 

@@ -8,8 +8,8 @@
 TEST(Intent, canFindWord)
 {
     Intent intent({"hello", "Hi", "morning"}, "GREETING");
-    EXPECT_TRUE(intent.find("Hi"));
     EXPECT_FALSE(intent.find("coffee"));
+    EXPECT_TRUE(intent.find("Hi"));
 }
 
 TEST(IntentRecognizer, canRecognizeIntentes){
