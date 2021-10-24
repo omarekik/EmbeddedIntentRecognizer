@@ -2,12 +2,11 @@
 
 #include <string>
 #include <list>
-#include <atomic>
 
 class Intent{
     const std::list<std::string> m_Context;
     const std::string m_Name;
-    std::atomic_bool m_Found;
+    bool m_Found;
 public:
     Intent(const std::list<std::string> context, const std::string name)
         : m_Context(context)
@@ -16,10 +15,7 @@ public:
         {}
     Intent(const Intent & intent) = delete;
     Intent & operator=(const Intent & intent) = delete;
-    Intent(Intent && intent) : m_Context(std::move(intent.m_Context))
-                    , m_Name(std::move(intent.m_Name))
-                    , m_Found(static_cast< bool >(intent.m_Found))
-                    {}
+    Intent(Intent && intent) = default;
 
     bool find(const std::string & sentence);
     const bool getFound() const {return m_Found;}

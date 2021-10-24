@@ -19,6 +19,12 @@ TEST(Intent, canFindExpressionContextInSentence)
     EXPECT_TRUE(intent.find("Good morning my car."));
 }
 
+TEST(Intent, canFindContextInSentenceCaseInsensitive)
+{
+    Intent intent({"hello", "Hi", "Good morning"}, "GREETING");
+    EXPECT_TRUE(intent.find("Hello my car."));
+}
+
 TEST(IntentRecognizer, canRecognizeIntentes){
     const std::string input = "hello my son.";
     IntentRecognizer intent_recognizer;

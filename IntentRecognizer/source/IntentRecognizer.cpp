@@ -1,25 +1,19 @@
 #include "IntentRecognizer.h"
 #include <algorithm>
 #include <execution>
+#include <boost/algorithm/string/find.hpp>
 
 bool Intent::find(const std::string & sentence)
 {
-    for_each( std::execution::par
-                , std::begin(m_Context)
-                , std::end(m_Context)
-                , [& m_Found = m_Found, & sentence](const std::string & context_element){
-                    //
-                    // May be after lauching thread per context_element one of them set m_Found to true
-                    // so no need to run string::find in the remaining threads.
-                    //
-                    if(!m_Found){ 
-                        if(sentence.find(context_element) != std::string::npos)
-                        {
-                            m_Found = true;
-                        }
-                    }
-                }
-            );
+    typedef const boost::iterator_range<std::string::const_iterator> StringRange;
+    m_Found = std::find_if( std::execution::par
+                          , std::begin(m_Context)
+                          , std::end(m_Context)
+                          , [&sentence](const std::string & context_element) {
+                              return boost::ifind_first( StringRange(std::begin(sentence), std::end(sentence))
+                                                       , StringRange(std::begin(context_element), std::end(context_element)));
+                            }
+                          ) != std::end(m_Context);
     return m_Found;
 }
 
@@ -30,13 +24,14 @@ void IntentRecognizer::emplaceIntent(Intent intent)
 
 void IntentRecognizer::recognize(const std::string & sentence)
 {
+
     for_each( std::execution::par
-                            , std::begin(m_Intents)
-                            , std::end(m_Intents)
-                            , [& sentence](Intent & intent){
-                                    intent.find(sentence);
-                            }
-                        );
+            , std::begin(m_Intents)
+            , std::end(m_Intents)
+            , [& sentence](Intent & intent){
+                    intent.find(sentence);
+            }
+        );
 }
 
 const std::string IntentRecognizer::getRecognizedIntents() const 
