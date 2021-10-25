@@ -11,12 +11,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(boost-cmake)
 
-FetchContent_Declare(
-    csv-parser
-    GIT_REPOSITORY  https://github.com/svandernotte/csv-parser
-)
-FetchContent_MakeAvailable(csv-parser)
-
 include_directories(IntentRecognizer/include)
 
 add_subdirectory(IntentRecognizer)

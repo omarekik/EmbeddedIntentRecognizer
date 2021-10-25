@@ -11,14 +11,16 @@ FetchContent_MakeAvailable(googletest)
 
 set(Source ${CMAKE_SOURCE_DIR}/IntentRecognizer/source)
 
-add_executable(mytest main.cpp 
-                      RowParserTest.cpp
-                      IntentRecognizerTest.cpp
-                      ${Source}/RowParser.cpp
-                      ${Source}/IntentRecognizer.cpp)
-target_link_libraries(mytest gtest_main Boost::boost csv)
+add_executable(unitTest main.cpp 
+                        IntentTest.cpp
+                        CsvParserTest.cpp
+                        IntentRecognizerTest.cpp
+                        ${Source}/CsvParser.cpp
+                        ${Source}/Intent.cpp
+                        ${Source}/IntentRecognizer.cpp)
+target_link_libraries(unitTest gtest_main Boost::boost)
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/config/intentionLight.csv
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../config/intention.csv
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-gtest_discover_tests(mytest)
+gtest_discover_tests(unitTest)
