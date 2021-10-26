@@ -11,6 +11,10 @@ CsvParser::CsvParser(const std::string & filename)
     {
         std::vector<std::string> context;
         boost::split(context, line, boost::is_any_of(","));
+        if (context.back().empty())
+        {
+            context.pop_back();
+        }
         if(!context.empty())
         {
             std::string name = context[0];

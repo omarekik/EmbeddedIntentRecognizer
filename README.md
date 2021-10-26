@@ -2,12 +2,16 @@
 Simple and small intent recognition command line tool that is not AI based for low latency consideration.
 
 ### Build:
-Buildable with cmake (minimum version 3.14) using modern C++ compiler (minimum version C++17) by running following command:
+Buildable with cmake (minimum version 3.14) using modern C++ compiler (minimum version C++17) by running following command for linux:
 ```
 git clone https://github.com/omarekik/EmbeddedIntentRecognizer && cd EmbeddedIntentRecognizer
 mkdir build && cd build && cmake .. && make && make test
 ```
-For windows environment, use "cmake --build . " instead of make
+For windows use following command:
+```
+git clone https://github.com/omarekik/EmbeddedIntentRecognizer && cd EmbeddedIntentRecognizer
+mkdir build && cd build && cmake .. && cmake --build . && ctest
+```
 ### Example of execution:
 Remain in the build directory and run the following commands:
 ```
@@ -26,7 +30,11 @@ $ ./IntentRecognizer/EmbeddedIntentRecognizer -s "What is the weather like today
 Warning value for dictionary overwritten to IntentRecognizer/intention.csv
 Intent: GET WEATHER
 ```
-
+Each line in dictionary file is uppercase, started by intent name followed by comma separated values of vocabulary and the line ends by a comma. In the following example `GET` is the intent name and all other expressions are the intent possible vocabulary:
+```
+GET,WHAT,WHEN,WHERE,WHICH,WHO,WHOM,WHOSE,WHY,WHY DON'T,HOW,HOW FAR,HOW LONG,HOW MANY,HOW MUCH,HOW OLD,TELL,
+```
+A dictionary file example is present in config directory.
 ### Open items to improve performance:
 * Actually boost/Split is used for CSV parsing. Some research is done to avoid copying strings using string_view and Vince's CSV Parser (https://github.com/svandernotte/csv-parser). The limit of this parser is that it supports only one delimiter. 
  > It is recommended to implement a CSV Parser that loads all CSV file content in a string buffer and all parsing and intent matching operations will be based on string_view so the application will be string copy free.  
