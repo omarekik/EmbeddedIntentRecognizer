@@ -2,7 +2,7 @@
 #include "IntentRecognizer.h"
 #include "CsvParser.h"
 
-TEST(IntentRecognizer, canRecognizeIntentes){
+TEST(IntentRecognizer, canRecognizeIntentesCaseInsensitive){
     const std::string input = "hello my Son.";
     IntentRecognizer intent_recognizer;
     intent_recognizer.emplaceIntent(Intent({"HELLO", "HI", "MORNING"}, "GREETING"));
